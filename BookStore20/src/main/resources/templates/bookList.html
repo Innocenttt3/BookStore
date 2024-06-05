@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<div>
+    <div th:each="book : ${books}">
+        <div th:text="${book.id}"></div>
+        <div th:text="${book.title}"></div>
+        <div th:text="${book.author}"></div>
+        <div th:text="${'Cena: ' + book.price + ' zł'}"></div>
+        <div th:text="${'Ilość: ' + book.quantity}"></div>
+        <a th:href="@{/book/update/{id}(id=${book.id})}" class="edit-link">Edytuj</a>
+        <form method="post" th:action="@{/book/delete}">
+            <input type="hidden" th:name="id" th:value="${book.id}" />
+            <input type="submit" value="Usuń" />
+        </form>
+        <a th:href="@{/cart/add/{bookId}/1(bookId=${book.id})}">Add to Cart</a>
+    </div>
+</div>
+</body>
+</html>
