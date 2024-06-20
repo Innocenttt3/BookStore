@@ -4,6 +4,7 @@ import com.kamilG.model.*;
 import com.kamilG.repository.OrderRepository;
 import jakarta.transaction.Transactional;
 import java.util.Date;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,8 @@ public class OrderService implements IOrderService {
   @Autowired private CartService cartService;
 
   @Autowired private OrderRepository orderRepository;
+
+  @Autowired private BookService bookService;
 
   @Override
   @Transactional
@@ -32,6 +35,14 @@ public class OrderService implements IOrderService {
       orderItem.setBook(cartItem.getBook());
       orderItem.setQuantity(cartItem.getQuantity());
       order.getItems().add(orderItem);
+
+      Optional<Book> optionalBook = bookService.getBookById(cartItem.getBook().getId());
+      if (optionalBook.isPresent()) {
+        Book book = optionalBook.get();
+        long updatedQuantity = book.getQuantity() - cartItem.getQuantity();
+        book.setQuantity(updatedQuantity);
+        bookService.saveOrUpdateBook(book);
+      }
     }
     cart.getItems().clear();
     cartService.saveCart(cart);

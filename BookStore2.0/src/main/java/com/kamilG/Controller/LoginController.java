@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class LoginController {
 
+
   @GetMapping("/login")
   public String login(
       @RequestParam(value = "error", required = false) String errorMessage,
@@ -25,7 +26,6 @@ public class LoginController {
     if (registerMessage != null) {
       model.addAttribute("registerMessage", registerMessage);
     }
-
     return "login";
   }
 }
