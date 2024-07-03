@@ -14,5 +14,11 @@ public class OrderItem {
 
   private int quantity;
 
-  @ManyToOne private Book book;
+  @ManyToOne
+  @JoinColumn(name = "book_id")
+  private Book book;
+
+  @ManyToOne
+  @JoinColumn(name = "order_id")
+  private Order order;
 }
