@@ -1,5 +1,6 @@
 package com.kamilG.Controller;
 
+import com.kamilG.Config.InsufficientStockException;
 import com.kamilG.model.Order;
 import com.kamilG.model.User;
 import com.kamilG.service.OrderService;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -22,9 +24,14 @@ public class OrderController {
 
 
   @PostMapping("/submit")
-  public String submitOrder() {
-    Order order = orderService.submitOrder();
-    return "redirect:/order/" + order.getId();
+  public String submitOrder(RedirectAttributes redirectAttributes) {
+    try {
+      Order order = orderService.submitOrder();
+      return "redirect:/order/" + order.getId();
+    } catch (InsufficientStockException e) {
+      redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+      return "redirect:/cart";
+    }
   }
 
   @GetMapping("/{orderId}")

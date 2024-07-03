@@ -1,5 +1,6 @@
 package com.kamilG.service;
 
+import com.kamilG.Config.InsufficientStockException;
 import com.kamilG.model.*;
 import com.kamilG.repository.OrderRepository;
 import jakarta.transaction.Transactional;
@@ -25,6 +26,16 @@ public class OrderService implements IOrderService {
   public Order submitOrder() {
     User user = userService.getCurrentUser();
     Cart cart = user.getCart();
+
+    for (CartItem cartItem : cart.getItems()) {
+      Optional<Book> optionalBook = bookService.getBookById(cartItem.getBook().getId());
+      if (optionalBook.isPresent()) {
+        Book book = optionalBook.get();
+        if (book.getQuantity() < cartItem.getQuantity()) {
+          throw new InsufficientStockException("Insufficient stock for book: " + book.getTitle());
+        }
+      }
+    }
 
     Order order = new Order();
     order.setDate(new Date());

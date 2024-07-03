@@ -2,9 +2,20 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Koszyk</title>
+    <style>
+        .error {
+            color: red;
+        }
+    </style>
 </head>
 <body>
 <h1>Koszyk</h1>
+
+<div th:if="${errorMessage}" class="error">
+    <p th:text="${errorMessage}"></p>
+</div>
+
+
 <div th:if="${cart.items.isEmpty()}">
     <p>Koszyk pusty.</p>
 </div>
@@ -29,13 +40,13 @@
                 <form th:action="@{/cart/remove/{bookId}(bookId=${item.book.id})}" method="get">
                     <button type="submit">Usun</button>
                 </form>
-                <form th:action="@{/order/submit}" method="post">
-                    <button type="submit">Submit Order</button>
-                </form>
             </td>
         </tr>
         </tbody>
     </table>
+    <form th:action="@{/order/submit}" method="post">
+        <button type="submit">Submit Order</button>
+    </form>
 </div>
 </body>
 </html>
