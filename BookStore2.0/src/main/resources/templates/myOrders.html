@@ -3,31 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <title>My Orders</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Custom CSS for additional styles -->
     <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        /* Additional styles can be added here */
+        .order-details {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
 </head>
 <body>
-<h1>My Orders</h1>
-<table>
-    <thead>
-    <tr>
-        <th>Order ID</th>
-        <th>Date</th>
-        <th>Status</th>
-        <th>Items</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="order : ${orders}">
-        <td th:text="${order.id}"></td>
-        <td th:text="${order.date}"></td>
-        <td th:text="${order.status}"></td>
-        <td>
-            <ul>
-                <li th:each="item : ${order.items}" th:text="${item.book.title} + ' - Quantity: ' + ${item.quantity}"></li>
-            </ul>
-        </td>
-    </tr>
-    </tbody>
-</table>
+<div class="container">
+    <h1 class="mt-4 mb-4">My Orders</h1>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead class="thead-dark">
+            <tr>
+                <th>Order ID</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Items</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="order : ${orders}">
+                <td th:text="${order.id}"></td>
+                <td th:text="${#dates.format(order.date, 'dd-MM-yyyy HH:mm')}"></td>
+                <td th:text="${order.status}"></td>
+                <td>
+                    <ul>
+                        <li th:each="item : ${order.items}" class="order-details"
+                            th:text="${item.book.title} + ' - Quantity: ' + ${item.quantity}"></li>
+                    </ul>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Buttons for navigation -->
+    <div class="mt-4">
+        <form th:action="@{/main}" method="get" class="d-inline">
+            <button type="submit" class="btn btn-primary">Go to Main Page</button>
+        </form>
+
+        <form th:action="@{/home}" method="get" class="d-inline ml-2">
+            <button type="submit" class="btn btn-secondary">Go to Home Page</button>
+        </form>
+    </div>
+</div>
+
+<!-- Bootstrap JS (optional, for Bootstrap components that require JavaScript) -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

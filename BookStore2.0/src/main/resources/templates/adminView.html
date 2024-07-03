@@ -1,13 +1,55 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Strona główna</title>
+    <meta charset="UTF-8">
+    <title>Strona główna</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            padding: 20px;
+        }
+        .btn-row {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
-<h1>Admin panel!</h1>
-<p>admin</p>
-<form th:action="@{/logout}" method="post">
-    <button type="submit">Wyloguj się</button>
-</form>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h1 class="card-title text-center">Admin Panel!</h1>
+                </div>
+                <div class="card-body">
+                    <p class="text-center">admin</p>
+                    <!-- Button row -->
+                    <div class="btn-row">
+                        <!-- Logout form -->
+                        <form th:action="@{/logout}" method="post">
+                            <button type="submit" class="btn btn-danger">Wyloguj się</button>
+                        </form>
+
+                        <!-- View all orders form -->
+                        <form th:action="@{/admin/orders}" method="get">
+                            <button type="submit" class="btn btn-primary">Zobacz wszystkie zamówienia</button>
+                        </form>
+
+                        <!-- Go to main page form -->
+                        <form th:action="@{/main}" method="get">
+                            <button type="submit" class="btn btn-secondary">Przejdź do strony głównej</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS (optional, for Bootstrap components that require JavaScript) -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

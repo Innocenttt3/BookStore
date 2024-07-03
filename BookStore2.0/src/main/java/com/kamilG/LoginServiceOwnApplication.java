@@ -8,7 +8,6 @@ public class LoginServiceOwnApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(LoginServiceOwnApplication.class, args);
-		//TODO managing quantity of items
 	}
 
 }

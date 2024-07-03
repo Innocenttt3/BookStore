@@ -21,6 +21,7 @@ public class SecurityConfig {
             auth ->
                 auth.requestMatchers("/login", "/register", "/main").permitAll()
                     .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
+                        .requestMatchers("/book/**").hasAuthority("ROLE_ADMIN")
                     .anyRequest()
                     .authenticated())
         .formLogin(

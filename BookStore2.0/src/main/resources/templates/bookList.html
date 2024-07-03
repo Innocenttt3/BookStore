@@ -1,31 +1,67 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
+    <meta charset="UTF-8">
+    <title>Book Store</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .book-item {
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .edit-link, .delete-form {
+            margin-right: 10px;
+        }
+        .add-to-cart {
+            margin-top: 10px;
+            display: inline-block;
+        }
+    </style>
 </head>
 <body>
-<div>
+<div class="container">
+    <h1 class="mt-4 mb-4">Book Store</h1>
 
     <div>
-        <a th:href="@{/home}">Home</a>
-        <a th:href="@{/cart}">View Cart</a>
+        <a class="btn btn-primary mr-2" th:href="@{/home}">Home</a>
+
+        <!-- Conditional rendering of View Cart button -->
+        <a class="btn btn-info" th:href="@{/cart}" th:if="${not #authorization.expression('hasRole(''ROLE_ADMIN'')')}">View Cart</a>
+
+        <a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-success ml-2" th:href="@{/book/add}">Add Book</a>
     </div>
 
-    <div th:each="book : ${books}">
-        <div th:text="${book.id}"></div>
-        <div th:text="${book.title}"></div>
-        <div th:text="${book.author}"></div>
-        <div th:text="${'Cena: ' + book.price + ' zł'}"></div>
-        <div th:text="${'Ilość: ' + book.quantity}"></div>
+    <div class="mt-4">
+        <div th:each="book : ${books}" class="book-item">
+            <div><strong>ID:</strong> <span th:text="${book.id}"></span></div>
+            <div><strong>Title:</strong> <span th:text="${book.title}"></span></div>
+            <div><strong>Author:</strong> <span th:text="${book.author}"></span></div>
+            <div><strong>Price:</strong> <span th:text="${'Cena: ' + book.price + ' zł'}"></span></div>
+            <div><strong>Quantity:</strong> <span th:text="${'Ilość: ' + book.quantity}"></span></div>
 
-        <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/book/update/{id}(id=${book.id})}"
-           class="edit-link">Edytuj</a>
-        <form sec:authorize="hasRole('ROLE_ADMIN')" method="post" th:action="@{/book/delete}">
-            <input type="hidden" th:name="id" th:value="${book.id}"/>
-            <input type="submit" value="Usuń"/>
-        </form>
+            <div class="mt-2">
+                <!-- Edit and Delete buttons visible only to ROLE_ADMIN -->
+                <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/book/update/{id}(id=${book.id})}"
+                   class="edit-link btn btn-sm btn-warning">Edit</a>
 
-        <a th:href="@{/cart/add/{bookId}/1(bookId=${book.id})}">Add to Cart</a>
+                <form sec:authorize="hasRole('ROLE_ADMIN')" method="post" th:action="@{/book/delete}"
+                      class="delete-form d-inline">
+                    <input type="hidden" th:name="id" th:value="${book.id}"/>
+                    <input type="submit" value="Delete" class="btn btn-sm btn-danger"/>
+                </form>
+
+                <!-- Add to Cart button visible to non-admin users -->
+                <a th:href="@{/cart/add/{bookId}/1(bookId=${book.id})}" class="add-to-cart btn btn-sm btn-success"
+                   sec:authorize="!hasRole('ROLE_ADMIN')">Add to Cart</a>
+            </div>
+        </div>
     </div>
 </div>
+
+<!-- Bootstrap JS (optional, for Bootstrap components that require JavaScript) -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

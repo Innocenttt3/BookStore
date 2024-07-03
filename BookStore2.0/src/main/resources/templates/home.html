@@ -1,16 +1,47 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Main page</title>
+    <meta charset="UTF-8">
+    <title>Main Page</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .container {
+            margin-top: 50px;
+        }
+        .card {
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
-<h1>Welcome on main page!</h1>
-<p>You are logged in as <span th:text="${#authentication.name}"></span>!</p>
-<form th:action="@{/logout}" method="post">
-    <button type="submit">Log out</button>
-</form>
-<form th:action="@{/main}" method="get">
-    <button type="submit">Go to main View</button>
-</form>
+<div class="container">
+    <div class="card">
+        <h1 class="card-header">Welcome to the Main Page!</h1>
+        <div class="card-body">
+            <p class="card-text">You are logged in as <span th:text="${#authentication.name}"></span>!</p>
+            <form th:action="@{/logout}" method="post">
+                <button type="submit" class="btn btn-danger">Log out</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Navigation</h5>
+            <div class="list-group">
+                <form th:action="@{/main}" method="get" class="list-group-item">
+                    <button type="submit" class="btn btn-primary btn-block">Go to Main View</button>
+                </form>
+                <form th:action="@{/order/myOrders}" method="get" class="list-group-item">
+                    <button type="submit" class="btn btn-info btn-block">View Order History</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS (optional, for Bootstrap components that require JavaScript) -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

@@ -1,53 +1,70 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
     <title>Admin Panel</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         .order-status {
             display: inline-block;
             width: 150px;
         }
+        .table-container {
+            padding: 20px;
+        }
     </style>
 </head>
 <body>
-<h1>Admin Panel</h1>
-<h2>All Orders</h2>
-<table>
-    <thead>
-    <tr>
-        <th>Order ID</th>
-        <th>User</th>
-        <th>Date</th>
-        <th>Status</th>
-        <th>Change Status</th>
-        <th>Delete Order</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="order : ${orders}">
-        <td th:text="${order.id}"></td>
-        <td th:text="${order.user.username}"></td>
-        <td th:text="${#dates.format(order.date, 'dd-MM-yyyy HH:mm')}"></td>
-        <td th:text="${order.status}"></td>
-        <td>
-            <form th:action="@{/admin/changeOrderStatus}" method="post">
-                <input type="hidden" name="orderId" th:value="${order.id}" />
-                <select name="status" class="order-status">
-                    <option th:each="status : ${T(com.kamilG.model.Order.OrderStatus).values()}"
-                            th:value="${status}" th:text="${status}"
-                            th:selected="${status == order.status}"></option>
-                </select>
-                <button type="submit">Change Status</button>
-            </form>
-        </td>
-        <td>
-            <form th:action="@{/admin/deleteOrder}" method="post">
-                <input type="hidden" name="orderId" th:value="${order.id}" />
-                <button type="submit">Delete</button>
-            </form>
-        </td>
-    </tr>
-    </tbody>
-</table>
+<div class="container">
+    <h1 class="mt-4 mb-4">Admin Panel</h1>
+
+    <!-- Back Button -->
+    <a href="/admin/adminView" class="btn btn-secondary mb-3">Back to Main View</a>
+
+    <h2>All Orders</h2>
+    <div class="table-container">
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+            <tr>
+                <th>Order ID</th>
+                <th>User</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Change Status</th>
+                <th>Delete Order</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="order : ${orders}">
+                <td th:text="${order.id}"></td>
+                <td th:text="${order.user.username}"></td>
+                <td th:text="${#dates.format(order.date, 'dd-MM-yyyy HH:mm')}"></td>
+                <td th:text="${order.status}"></td>
+                <td>
+                    <form th:action="@{/admin/changeOrderStatus}" method="post" class="form-inline">
+                        <input type="hidden" name="orderId" th:value="${order.id}" />
+                        <select name="status" class="form-control order-status mr-2">
+                            <option th:each="status : ${T(com.kamilG.model.Order.OrderStatus).values()}"
+                                    th:value="${status}" th:text="${status}"
+                                    th:selected="${status == order.status}"></option>
+                        </select>
+                        <button type="submit" class="btn btn-primary">Change Status</button>
+                    </form>
+                </td>
+                <td>
+                    <form th:action="@{/admin/deleteOrder}" method="post" class="form-inline">
+                        <input type="hidden" name="orderId" th:value="${order.id}" />
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Bootstrap JS (optional, for Bootstrap components that require JavaScript) -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

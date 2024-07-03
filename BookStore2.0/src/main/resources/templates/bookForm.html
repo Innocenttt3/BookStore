@@ -1,14 +1,63 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Book</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .input-field {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .submit-button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .submit-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
 <body>
-<div>
-    <form method="post">
-        <input type="text" placeholder="Tytuł" class="input-field" th:field="*{book.title}" id="title">
-        <input type="text" placeholder="Autor" class="input-field" th:field="*{book.author}" id="author">
-        <input type="text" placeholder="Cena" class="input-field" th:field="*{book.price}" id="price">
-        <input type="text" placeholder="Ilość" class="input-field" th:field="*{book.quantity}" id="quantity">
-        <input type="submit" value="Dodaj">
+<div class="container">
+    <h1 class="mt-4 mb-4" th:text="${book.id} ? 'Edit Book' : 'New Book'">Edit Book</h1>
+
+    <form th:action="${book.id} ? '/book/update/' + ${book.id} : '/book/add'" method="post" th:object="${book}">
+        <!-- Include the hidden input for book id -->
+        <input type="hidden" th:field="*{id}"/>
+
+        <div class="form-group">
+            <label for="title">Title:</label>
+            <input type="text" class="form-control input-field" th:field="*{title}" id="title" placeholder="Enter title">
+        </div>
+        <div class="form-group">
+            <label for="author">Author:</label>
+            <input type="text" class="form-control input-field" th:field="*{author}" id="author" placeholder="Enter author">
+        </div>
+        <div class="form-group">
+            <label for="price">Price:</label>
+            <input type="text" class="form-control input-field" th:field="*{price}" id="price" placeholder="Enter price">
+        </div>
+        <div class="form-group">
+            <label for="quantity">Quantity:</label>
+            <input type="text" class="form-control input-field" th:field="*{quantity}" id="quantity" placeholder="Enter quantity">
+        </div>
+        <button type="submit" class="btn btn-primary submit-button" th:text="${book.id} ? 'Save Changes' : 'Add Book'"></button>
     </form>
 </div>
+
+<!-- Bootstrap JS (optional, for Bootstrap components that require JavaScript) -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
