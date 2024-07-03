@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin Panel</title>
+    <style>
+        .order-status {
+            display: inline-block;
+            width: 150px;
+        }
+    </style>
+</head>
+<body>
+<h1>Admin Panel</h1>
+<h2>All Orders</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Order ID</th>
+        <th>User</th>
+        <th>Date</th>
+        <th>Status</th>
+        <th>Change Status</th>
+        <th>Delete Order</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="order : ${orders}">
+        <td th:text="${order.id}"></td>
+        <td th:text="${order.user.username}"></td>
+        <td th:text="${#dates.format(order.date, 'dd-MM-yyyy HH:mm')}"></td>
+        <td th:text="${order.status}"></td>
+        <td>
+            <form th:action="@{/admin/changeOrderStatus}" method="post">
+                <input type="hidden" name="orderId" th:value="${order.id}" />
+                <select name="status" class="order-status">
+                    <option th:each="status : ${T(com.kamilG.model.Order.OrderStatus).values()}"
+                            th:value="${status}" th:text="${status}"
+                            th:selected="${status == order.status}"></option>
+                </select>
+                <button type="submit">Change Status</button>
+            </form>
+        </td>
+        <td>
+            <form th:action="@{/admin/deleteOrder}" method="post">
+                <input type="hidden" name="orderId" th:value="${order.id}" />
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
