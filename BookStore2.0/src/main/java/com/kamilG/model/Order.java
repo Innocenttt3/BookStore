@@ -20,6 +20,8 @@ public class Order {
   @JoinColumn(name = "user_id")
   private User user;
 
+
+
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
   private List<OrderItem> items = new ArrayList<>();
 

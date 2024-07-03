@@ -29,6 +29,7 @@ public class CartService implements ICartService {
     Book book =
         bookRepository.findById(itemId).orElseThrow(() -> new RuntimeException("Book not found"));
     cart.addItem(book, quantity);
+
     return saveCart(cart);
   }
 

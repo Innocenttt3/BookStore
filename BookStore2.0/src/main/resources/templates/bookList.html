@@ -4,6 +4,12 @@
 </head>
 <body>
 <div>
+
+    <div>
+        <a th:href="@{/home}">Home</a>
+        <a th:href="@{/cart}">View Cart</a>
+    </div>
+
     <div th:each="book : ${books}">
         <div th:text="${book.id}"></div>
         <div th:text="${book.title}"></div>

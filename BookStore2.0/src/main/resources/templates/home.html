@@ -5,9 +5,12 @@
 </head>
 <body>
 <h1>Welcome on main page!</h1>
-<p>You are logged in!</p>
+<p>You are logged in as <span th:text="${#authentication.name}"></span>!</p>
 <form th:action="@{/logout}" method="post">
     <button type="submit">Log out</button>
+</form>
+<form th:action="@{/main}" method="get">
+    <button type="submit">Go to main View</button>
 </form>
 </body>
 </html>

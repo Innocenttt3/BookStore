@@ -32,4 +32,6 @@ public class CartController {
     cartService.removeFromCart(bookId);
     return "redirect:/cart";
   }
+
+
 }
